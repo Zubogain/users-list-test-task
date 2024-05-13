@@ -45,7 +45,6 @@ export const UserCreateForm = () => {
   });
 
   function onSubmit(user: z.infer<typeof UserFormSchema>) {
-    console.log("asdasdasdasdads");
     createUser(user);
   }
 

@@ -11,21 +11,19 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { Link } from "react-router-dom";
 
 export const NavigationMenu = () => {
   return (
     <NavigationMenuCn>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <NavigationMenuLink href="/" className={navigationMenuTriggerStyle()}>
+          <Link to="/" className={navigationMenuTriggerStyle()}>
             Users
-          </NavigationMenuLink>
-          <NavigationMenuLink
-            href="/create"
-            className={navigationMenuTriggerStyle()}
-          >
+          </Link>
+          <Link to="/create" className={navigationMenuTriggerStyle()}>
             Create user
-          </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenuCn>
