@@ -17,9 +17,7 @@ export interface User {
 
 export interface UsersTableProps {}
 
-export interface UserFormProps {
-  id?: string;
-}
+export interface UserFormProps {}
 
 export interface userState extends dataFetchWrapper {
   item: User | null;

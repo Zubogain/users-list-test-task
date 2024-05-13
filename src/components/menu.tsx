@@ -1,7 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { Link } from "react-router-dom";
 
 import { cn } from "@/lib/utils";
 
@@ -18,11 +17,15 @@ export const NavigationMenu = () => {
     <NavigationMenuCn>
       <NavigationMenuList>
         <NavigationMenuItem>
-          <Link to="/">
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Users
-            </NavigationMenuLink>
-          </Link>
+          <NavigationMenuLink href="/" className={navigationMenuTriggerStyle()}>
+            Users
+          </NavigationMenuLink>
+          <NavigationMenuLink
+            href="/create"
+            className={navigationMenuTriggerStyle()}
+          >
+            Create user
+          </NavigationMenuLink>
         </NavigationMenuItem>
       </NavigationMenuList>
     </NavigationMenuCn>

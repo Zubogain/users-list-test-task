@@ -3,8 +3,9 @@ import { Routes, Route, Outlet, BrowserRouter } from "react-router-dom";
 
 import { NavigationMenu } from "./components/menu";
 
-import Users from "./containers/user";
+import Users from "./containers/users";
 import UserEdit from "./containers/user-edit";
+import UserCreate from "./containers/user-create";
 
 function Layout() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<Users />} />
           <Route path="/users/:id" element={<UserEdit />} />
+          <Route path="/create" element={<UserCreate />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -13,7 +13,10 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 
 import { UsersTableProps } from "@/interfaces/users";
-import { useGetAllUsersQuery } from "@/services/usersApi";
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+} from "@/services/usersApi";
 
 const _dummyMap = new Array(10).fill(0);
 
@@ -51,6 +54,7 @@ const TableRowSkeleton = () => {
 
 export const UsersTable: React.FC<UsersTableProps> = () => {
   const query = useGetAllUsersQuery("");
+  const [deleteUser, { isSuccess }] = useDeleteUserMutation();
 
   return (
     <Table className="w-full">
@@ -81,9 +85,12 @@ export const UsersTable: React.FC<UsersTableProps> = () => {
               <TableCell>
                 {moment(user.created_at).format("MMMM Do YYYY, h:mm:ss a")}
               </TableCell>
-              <TableCell>
+              <TableCell className="flex gap-4">
                 <Button variant="outline">
                   <Link to={`/users/${user.id}`}>edit...</Link>
+                </Button>
+                <Button variant="outline" onClick={() => deleteUser(user.id)}>
+                  delete
                 </Button>
               </TableCell>
             </TableRow>

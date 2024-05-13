@@ -18,6 +18,21 @@ export const usersApi = createApi({
       query: (id) => `/${id}`,
       providesTags: ["Users"],
     }),
+    createUser: builder.mutation<User, z.infer<typeof UserFormSchema>>({
+      query: (user) => ({
+        url: "",
+        method: "POST",
+        body: user,
+      }),
+      invalidatesTags: ["Users"],
+    }),
+    deleteUser: builder.mutation<User, number>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Users"],
+    }),
     updateUser: builder.mutation<User, z.infer<typeof UserFormSchema>>({
       query: (user) => ({
         url: `/${user.id}`,
@@ -37,5 +52,7 @@ export const {
   useGetUserQuery,
   useLazyGetUserQuery,
   useUpdateUserMutation,
+  useDeleteUserMutation,
+  useCreateUserMutation,
   usePrefetch,
 } = usersApi;
