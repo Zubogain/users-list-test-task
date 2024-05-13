@@ -141,7 +141,6 @@ export const UserEditForm: React.FC<UserFormProps> = (props) => {
   const form = useForm<z.infer<typeof UserFormSchema>>({
     resolver: zodResolver(UserFormSchema),
     defaultValues: {
-      id: 0,
       name: "",
       surname: "",
       email: "",
@@ -151,7 +150,6 @@ export const UserEditForm: React.FC<UserFormProps> = (props) => {
 
   useEffect(() => {
     if (!query.isLoading && query.data) {
-      form.setValue("id", query.data.id);
       form.setValue("name", query.data.name);
       form.setValue("surname", query.data.surname);
       form.setValue("email", query.data.email);
@@ -161,7 +159,8 @@ export const UserEditForm: React.FC<UserFormProps> = (props) => {
   }, [query.isLoading]);
 
   function onSubmit(user: z.infer<typeof UserFormSchema>) {
-    updateUser(user);
+    // @ts-ignore
+    updateUser({ ...user, id: id });
   }
 
   const goBack = () => {
