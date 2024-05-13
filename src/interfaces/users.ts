@@ -6,7 +6,7 @@ type skills = {
 };
 
 // basic user object interface
-export interface user {
+export interface User {
   id: number;
   name: string;
   surname: string;
@@ -22,9 +22,9 @@ export interface UserFormProps {
 }
 
 export interface userState extends dataFetchWrapper {
-  item: user | null;
+  item: User | null;
 }
 
 export interface usersState extends dataFetchWrapper {
-  items: user[] | null;
+  items: User[] | null;
 }

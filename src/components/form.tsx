@@ -18,19 +18,17 @@ import { Input } from "@/components/ui/input";
 import { TagInput, Tag } from "emblor";
 import { Skeleton } from "./ui/skeleton";
 
-import { useAppDispatch, useAppSelector } from "@/hooks";
-import { userState, UserFormProps } from "@/interfaces/users";
+import { UserFormProps } from "@/interfaces/users";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { fetchUser, updateUser } from "@/actions/user";
+
 import { UserFormSchema } from "@/schemas/form";
+import { useGetUserQuery } from "@/services/usersApi";
 
 export const UserForm: React.FC<UserFormProps> = (props) => {
-  const { isLoading, isError, message, item }: userState = useAppSelector(
-    ({ user }) => user
-  );
-  const dispatch = useAppDispatch();
   const { id } = useParams();
+
+  const query = useGetUserQuery(id || "");
 
   const [tags, setTags] = React.useState<Tag[]>([]);
 
@@ -46,21 +44,18 @@ export const UserForm: React.FC<UserFormProps> = (props) => {
   });
 
   useEffect(() => {
-    if (!item) {
-      id && dispatch(fetchUser(id));
-    } else {
-      form.setValue("id", item.id || 0);
-      form.setValue("name", item.name || "");
-      form.setValue("surname", item.surname || "");
-      form.setValue("email", item.email || "");
-
-      setTags(item.skills);
-      form.setValue("skills", item.skills as [Tag, ...Tag[]]);
+    if (!query.isLoading) {
+      form.setValue("id", query.data?.id || 0);
+      form.setValue("name", query.data?.name || "");
+      form.setValue("surname", query.data?.surname || "");
+      form.setValue("email", query.data?.email || "");
+      setTags(query.data?.skills || []);
+      form.setValue("skills", query.data?.skills as [Tag, ...Tag[]]);
     }
-  }, [item]);
+  }, [query.isLoading]);
 
   function onSubmit(user: z.infer<typeof UserFormSchema>) {
-    dispatch(updateUser(user));
+    console.log(user);
   }
 
   const goBack = () => {
@@ -77,7 +72,7 @@ export const UserForm: React.FC<UserFormProps> = (props) => {
             <FormItem>
               <FormLabel>Name</FormLabel>
               <FormControl>
-                {item ? (
+                {!query.isLoading ? (
                   <Input placeholder="name" {...field} />
                 ) : (
                   <Skeleton className="h-10 px-3 py-2 text-sm align-middle [&:has([role=checkbox])]:pr-0 w-[100%]" />
@@ -94,7 +89,7 @@ export const UserForm: React.FC<UserFormProps> = (props) => {
             <FormItem>
               <FormLabel>Surname</FormLabel>
               <FormControl>
-                {item ? (
+                {!query.isLoading ? (
                   <Input placeholder="surname" {...field} />
                 ) : (
                   <Skeleton className="h-10 px-3 py-2 text-sm align-middle [&:has([role=checkbox])]:pr-0 w-[100%]" />
@@ -111,7 +106,7 @@ export const UserForm: React.FC<UserFormProps> = (props) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                {item ? (
+                {!query.isLoading ? (
                   <Input placeholder="email" {...field} />
                 ) : (
                   <Skeleton className="h-10 px-3 py-2 text-sm align-middle [&:has([role=checkbox])]:pr-0 w-[100%]" />
@@ -128,7 +123,7 @@ export const UserForm: React.FC<UserFormProps> = (props) => {
             <FormItem>
               <FormLabel className="text-left">Skills</FormLabel>
               <FormControl className="p-3">
-                {item ? (
+                {!query.isLoading ? (
                   <TagInput
                     {...field}
                     placeholder="Enter a skill"

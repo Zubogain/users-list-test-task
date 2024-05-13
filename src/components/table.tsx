@@ -3,7 +3,6 @@ import {
   TableBody,
   TableCaption,
   TableCell,
-  TableFooter,
   TableHead,
   TableHeader,
   TableRow,
@@ -12,12 +11,9 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { useAppDispatch, useAppSelector } from "@/hooks";
 
-import { UsersTableProps, usersState } from "@/interfaces/users";
-import { setUser } from "@/actions/user";
-import { fetchUsers } from "@/actions/users";
-import { useEffect } from "react";
+import { UsersTableProps } from "@/interfaces/users";
+import { useGetAllUsersQuery } from "@/services/usersApi";
 
 const _dummyMap = new Array(10).fill(0);
 
@@ -54,14 +50,7 @@ const TableRowSkeleton = () => {
 };
 
 export const UsersTable: React.FC<UsersTableProps> = () => {
-  const { items, isLoading }: usersState = useAppSelector(
-    (state) => state.users
-  );
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!items) dispatch(fetchUsers());
-  }, []);
+  const query = useGetAllUsersQuery("");
 
   return (
     <Table className="w-full">
@@ -77,27 +66,24 @@ export const UsersTable: React.FC<UsersTableProps> = () => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {items ? (
-          items.map((item) => (
-            <TableRow key={item.id.toString()}>
+        {!query.isLoading ? (
+          query.data?.map((user) => (
+            <TableRow key={user.id.toString()}>
               <TableCell className="font-medium">
-                {item.id.toString()}
+                {user.id.toString()}
               </TableCell>
-              <TableCell className="font-medium">{item.name}</TableCell>
-              <TableCell>{item.surname}</TableCell>
-              <TableCell>{item.email}</TableCell>
+              <TableCell className="font-medium">{user.name}</TableCell>
+              <TableCell>{user.surname}</TableCell>
+              <TableCell>{user.email}</TableCell>
               <TableCell className="break-all">
-                {item.skills && item.skills.map((item) => item.text)}
+                {user.skills && user.skills.map((item) => item.text)}
               </TableCell>
               <TableCell>
-                {moment(item.created_at).format("MMMM Do YYYY, h:mm:ss a")}
+                {moment(user.created_at).format("MMMM Do YYYY, h:mm:ss a")}
               </TableCell>
               <TableCell>
-                <Button
-                  variant="outline"
-                  onClick={() => dispatch(setUser(item))}
-                >
-                  <Link to={`/users/${item.id}`}>edit...</Link>
+                <Button variant="outline">
+                  <Link to={`/users/${user.id}`}>edit...</Link>
                 </Button>
               </TableCell>
             </TableRow>
