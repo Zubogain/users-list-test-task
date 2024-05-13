@@ -23,12 +23,13 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import { UserFormSchema } from "@/schemas/form";
-import { useGetUserQuery } from "@/services/usersApi";
+import { useGetUserQuery, useUpdateUserMutation } from "@/services/usersApi";
 
 export const UserForm: React.FC<UserFormProps> = (props) => {
   const { id } = useParams();
 
-  const query = useGetUserQuery(id || "");
+  const query = useGetUserQuery(id);
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const [tags, setTags] = React.useState<Tag[]>([]);
 
@@ -44,17 +45,18 @@ export const UserForm: React.FC<UserFormProps> = (props) => {
   });
 
   useEffect(() => {
-    if (!query.isLoading) {
-      form.setValue("id", query.data?.id || 0);
-      form.setValue("name", query.data?.name || "");
-      form.setValue("surname", query.data?.surname || "");
-      form.setValue("email", query.data?.email || "");
-      setTags(query.data?.skills || []);
-      form.setValue("skills", query.data?.skills as [Tag, ...Tag[]]);
+    if (!query.isLoading && query.data) {
+      form.setValue("id", query.data.id);
+      form.setValue("name", query.data.name);
+      form.setValue("surname", query.data.surname);
+      form.setValue("email", query.data.email);
+      setTags(query.data.skills);
+      form.setValue("skills", query.data.skills as [Tag, ...Tag[]]);
     }
   }, [query.isLoading]);
 
   function onSubmit(user: z.infer<typeof UserFormSchema>) {
+    updateUser(user);
     console.log(user);
   }
 
