@@ -20,7 +20,7 @@ import { Skeleton } from './ui/skeleton';
 
 import { UserFormProps } from '@/interfaces/users';
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import { UserFormSchema } from '@/schemas/form';
 import {
@@ -30,7 +30,12 @@ import {
 } from '@/services/usersApi';
 
 export const UserCreateForm = () => {
-  const [createUser, { isLoading }] = useCreateUserMutation();
+  const [createUser, { isLoading, isSuccess }] = useCreateUserMutation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    isSuccess && navigate(`/`);
+  }, [isSuccess]);
 
   const [tags, setTags] = React.useState<Tag[]>([]);
 
@@ -133,7 +138,13 @@ export const UserEditForm: React.FC<UserFormProps> = props => {
   const { id } = useParams();
 
   const query = useGetUserQuery(id);
-  const [updateUser, { isLoading }] = useUpdateUserMutation();
+  const [updateUser, { isLoading, isSuccess }] = useUpdateUserMutation();
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    isSuccess && navigate(`/`);
+  }, [isSuccess]);
 
   const [tags, setTags] = React.useState<Tag[]>([]);
 
