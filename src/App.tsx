@@ -6,11 +6,12 @@ import { NavigationMenu } from "./components/menu";
 import Users from "./containers/users";
 import UserEdit from "./containers/user-edit";
 import UserCreate from "./containers/user-create";
+import Header from "./components/header";
 
 function Layout() {
   return (
-    <div>
-      <NavigationMenu />
+    <div className="h-screen py-8 container">
+      <Header />
 
       <Outlet />
     </div>

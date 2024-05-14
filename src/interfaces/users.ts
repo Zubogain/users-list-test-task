@@ -1,5 +1,3 @@
-import { dataFetchWrapper } from "./state";
-
 type skills = {
   id: string;
   text: string;
@@ -18,11 +16,3 @@ export interface User {
 export interface UsersTableProps {}
 
 export interface UserFormProps {}
-
-export interface userState extends dataFetchWrapper {
-  item: User | null;
-}
-
-export interface usersState extends dataFetchWrapper {
-  items: User[] | null;
-}
