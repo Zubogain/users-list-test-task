@@ -1,45 +1,45 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { User } from "../interfaces/users";
-import { z } from "zod";
-import { UserFormSchema } from "@/schemas/form";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { User } from '../interfaces/users';
+import { z } from 'zod';
+import { UserFormSchema } from '@/schemas/form';
 
 export const usersApi = createApi({
-  reducerPath: "usersApi",
-  tagTypes: ["Users"],
+  reducerPath: 'usersApi',
+  tagTypes: ['Users'],
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://x8ki-letl-twmt.n7.xano.io/api:6_8FTBNX/users",
+    baseUrl: 'https://x8ki-letl-twmt.n7.xano.io/api:6_8FTBNX/users',
   }),
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getAllUsers: builder.query<User[], string | undefined>({
-      query: () => "",
-      providesTags: ["Users"],
+      query: () => '',
+      providesTags: ['Users'],
     }),
     getUser: builder.query<User, string | undefined>({
-      query: (id) => `/${id}`,
-      providesTags: ["Users"],
+      query: id => `/${id}`,
+      providesTags: ['Users'],
     }),
     createUser: builder.mutation<User, z.infer<typeof UserFormSchema>>({
-      query: (user) => ({
-        url: "",
-        method: "POST",
+      query: user => ({
+        url: '',
+        method: 'POST',
         body: user,
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ['Users'],
     }),
     deleteUser: builder.mutation<User, number>({
-      query: (id) => ({
+      query: id => ({
         url: `/${id}`,
-        method: "DELETE",
+        method: 'DELETE',
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ['Users'],
     }),
     updateUser: builder.mutation<User, z.infer<typeof UserFormSchema>>({
-      query: (user) => ({
+      query: user => ({
         url: `/${user.id}`,
-        method: "PUT",
+        method: 'PUT',
         body: { user_id: user.id, ...user },
       }),
-      invalidatesTags: ["Users"],
+      invalidatesTags: ['Users'],
     }),
   }),
   // Consider adding refetchOnMount or refetchOnReconnect based on your needs

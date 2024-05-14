@@ -1,4 +1,4 @@
-import { UserEditForm } from "@/components/form";
+import { UserEditForm } from '@/components/form';
 
 const UserEdit = () => {
   return (

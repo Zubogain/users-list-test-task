@@ -1,33 +1,33 @@
 /* eslint-disable no-restricted-globals */
-import React from "react";
+import React from 'react';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 
-import { TagInput, Tag } from "emblor";
-import { Skeleton } from "./ui/skeleton";
+import { TagInput, Tag } from 'emblor';
+import { Skeleton } from './ui/skeleton';
 
-import { UserFormProps } from "@/interfaces/users";
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { UserFormProps } from '@/interfaces/users';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-import { UserFormSchema } from "@/schemas/form";
+import { UserFormSchema } from '@/schemas/form';
 import {
   useCreateUserMutation,
   useGetUserQuery,
   useUpdateUserMutation,
-} from "@/services/usersApi";
+} from '@/services/usersApi';
 
 export const UserCreateForm = () => {
   const [createUser, { isLoading }] = useCreateUserMutation();
@@ -37,9 +37,9 @@ export const UserCreateForm = () => {
   const form = useForm<z.infer<typeof UserFormSchema>>({
     resolver: zodResolver(UserFormSchema),
     defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
+      name: '',
+      surname: '',
+      email: '',
       skills: [],
     },
   });
@@ -106,9 +106,9 @@ export const UserCreateForm = () => {
                   placeholder="Enter a skill"
                   tags={tags}
                   className="p-3"
-                  setTags={(newTags) => {
+                  setTags={newTags => {
                     setTags(newTags);
-                    form.setValue("skills", newTags as [Tag, ...Tag[]]);
+                    form.setValue('skills', newTags as [Tag, ...Tag[]]);
                   }}
                 />
               </FormControl>
@@ -129,7 +129,7 @@ export const UserCreateForm = () => {
   );
 };
 
-export const UserEditForm: React.FC<UserFormProps> = (props) => {
+export const UserEditForm: React.FC<UserFormProps> = props => {
   const { id } = useParams();
 
   const query = useGetUserQuery(id);
@@ -140,20 +140,20 @@ export const UserEditForm: React.FC<UserFormProps> = (props) => {
   const form = useForm<z.infer<typeof UserFormSchema>>({
     resolver: zodResolver(UserFormSchema),
     defaultValues: {
-      name: "",
-      surname: "",
-      email: "",
+      name: '',
+      surname: '',
+      email: '',
       skills: [],
     },
   });
 
   useEffect(() => {
     if (!query.isLoading && query.data) {
-      form.setValue("name", query.data.name);
-      form.setValue("surname", query.data.surname);
-      form.setValue("email", query.data.email);
+      form.setValue('name', query.data.name);
+      form.setValue('surname', query.data.surname);
+      form.setValue('email', query.data.email);
       setTags(query.data.skills);
-      form.setValue("skills", query.data.skills as [Tag, ...Tag[]]);
+      form.setValue('skills', query.data.skills as [Tag, ...Tag[]]);
     }
   }, [query.isLoading]);
 
@@ -233,9 +233,9 @@ export const UserEditForm: React.FC<UserFormProps> = (props) => {
                     placeholder="Enter a skill"
                     tags={tags}
                     className="p-3"
-                    setTags={(newTags) => {
+                    setTags={newTags => {
                       setTags(newTags);
-                      form.setValue("skills", newTags as [Tag, ...Tag[]]);
+                      form.setValue('skills', newTags as [Tag, ...Tag[]]);
                     }}
                   />
                 ) : (

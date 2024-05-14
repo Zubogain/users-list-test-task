@@ -6,17 +6,17 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Link } from "react-router-dom";
-import moment from "moment";
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
 
-import { UsersTableProps } from "@/interfaces/users";
+import { UsersTableProps } from '@/interfaces/users';
 import {
   useDeleteUserMutation,
   useGetAllUsersQuery,
-} from "@/services/usersApi";
+} from '@/services/usersApi';
 
 const _dummyMap = new Array(10).fill(0);
 
@@ -53,7 +53,7 @@ const TableRowSkeleton = () => {
 };
 
 export const UsersTable: React.FC<UsersTableProps> = () => {
-  const query = useGetAllUsersQuery("");
+  const query = useGetAllUsersQuery('');
   const [deleteUser, { isSuccess }] = useDeleteUserMutation();
 
   return (
@@ -71,7 +71,7 @@ export const UsersTable: React.FC<UsersTableProps> = () => {
       </TableHeader>
       <TableBody>
         {!query.isLoading ? (
-          query.data?.map((user) => (
+          query.data?.map(user => (
             <TableRow key={user.id.toString()}>
               <TableCell className="font-medium">
                 {user.id.toString()}
@@ -80,10 +80,10 @@ export const UsersTable: React.FC<UsersTableProps> = () => {
               <TableCell>{user.surname}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell className="break-all">
-                {user.skills && user.skills.map((item) => item.text)}
+                {user.skills && user.skills.map(item => item.text)}
               </TableCell>
               <TableCell>
-                {moment(user.created_at).format("MMMM Do YYYY, h:mm:ss a")}
+                {moment(user.created_at).format('MMMM Do YYYY, h:mm:ss a')}
               </TableCell>
               <TableCell className="flex gap-4">
                 <Button variant="outline">

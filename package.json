@@ -43,6 +43,7 @@
     "dev": "craco start",
     "build": "craco build",
     "test": "react-scripts test",
+    "format": "prettier --loglevel warn --write ./src",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -64,6 +65,7 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^7.1.0"
+    "@craco/craco": "^7.1.0",
+    "prettier": "^3.2.5"
   }
 }

@@ -1,23 +1,22 @@
-import { useTheme } from "./components/theme-provider";
-import { Routes, Route, Outlet, BrowserRouter } from "react-router-dom";
+// Imports grouped by their origin
+import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
+import { useTheme } from './components/theme-provider';
+import Users from './containers/users';
+import UserEdit from './containers/user-edit';
+import UserCreate from './containers/user-create';
+import Header from './components/header';
 
-import { NavigationMenu } from "./components/menu";
-
-import Users from "./containers/users";
-import UserEdit from "./containers/user-edit";
-import UserCreate from "./containers/user-create";
-import Header from "./components/header";
-
+// Layout component for consistent structure
 function Layout() {
   return (
     <div className="h-screen py-8 container">
       <Header />
-
       <Outlet />
     </div>
   );
 }
 
+// Main App component with routing
 function App() {
   const { theme } = useTheme();
 
@@ -26,8 +25,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Users />} />
-          <Route path="/users/:id" element={<UserEdit />} />
-          <Route path="/create" element={<UserCreate />} />
+          <Route path="users/:id" element={<UserEdit />} />
+          <Route path="create" element={<UserCreate />} />
         </Route>
       </Routes>
     </BrowserRouter>
