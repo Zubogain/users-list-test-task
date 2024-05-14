@@ -15,7 +15,7 @@ import { Link } from 'react-router-dom';
 
 export const NavigationMenu = () => {
   return (
-    <NavigationMenuCn>
+    <NavigationMenuCn className='m-auto'>
       <NavigationMenuList>
         <NavigationMenuItem>
           <Link to="/" className={navigationMenuTriggerStyle()}>
