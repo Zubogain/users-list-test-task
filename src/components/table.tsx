@@ -80,7 +80,7 @@ export const UsersTable: React.FC<UsersTableProps> = () => {
               <TableCell>{user.surname}</TableCell>
               <TableCell>{user.email}</TableCell>
               <TableCell className="break-all">
-                {user.skills && user.skills.map(item => item.text)}
+                {user.skills && user.skills.map(item => item.text).join(", ")}
               </TableCell>
               <TableCell>
                 {moment(user.created_at).format('MMMM Do YYYY, h:mm:ss a')}
